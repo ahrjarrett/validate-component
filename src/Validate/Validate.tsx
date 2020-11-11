@@ -1,5 +1,5 @@
 import React from "react"
-import { Predicate, identity } from "fp-ts/function"
+import { Predicate } from "fp-ts/function"
 
 import { isAny } from "../typeguards"
 
