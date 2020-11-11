@@ -1,1 +1,1 @@
-export { Validate } from "./Validate";
+export { makeValidateComponent, ValidateWithoutTypeguard } from "./Validate"

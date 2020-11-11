@@ -1,14 +1,24 @@
-import React from "react";
+import React from "react"
+import { Predicate, identity } from "fp-ts/function"
 
-interface Data {
-  data: string;
+import { isAny } from "../typeguards"
+
+type Is<T> = (u: unknown) => u is T
+
+interface Props<Input, Output> {
+  children: (data: Output) => React.ReactElement
+  data: Input
+  validate: Predicate<Input>
+  fallback: () => React.ReactNode | React.ReactElement
 }
 
-interface Props {
-  children: (data: Data) => React.ReactElement;
-  props?: any;
-}
+export const makeValidateComponent = <Output,>(is: Is<Output>) => <Input,>({
+  data,
+  validate,
+  children,
+  fallback,
+}: Props<Input, Output>) => (
+  <>{validate(data) && is(data) ? children(data as Output) : fallback()}</>
+)
 
-export function Validate({ children }: Props) {
-  return children({ data: "yo" });
-}
+export const ValidateWithoutTypeguard = makeValidateComponent<unknown>(isAny)
